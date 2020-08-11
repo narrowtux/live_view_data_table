@@ -107,7 +107,7 @@ defmodule LiveViewDataTable.Private do
 
   def get_item(_module, id, socket) do
     Enum.find(socket.assigns.items, fn item ->
-      to_string(item.struct.id) == to_string(id)
+      to_string(item.id) == to_string(id)
     end)
   end
 end

@@ -13,10 +13,10 @@ defmodule LiveViewDataTable.Select do
   end
 
   def handle_data_table_event(module, {:cell, :mousedown, _column, item, %{"button" => 0} = params}, socket) do
-    index = Enum.find_index(socket.assigns.items, &(&1.struct.id == item.struct.id))
+    index = Enum.find_index(socket.assigns.items, &(&1.id == item.id))
     shift = Map.get(params, "shift_key", false)
     ctrl = Map.get(params, "ctrl_key", false) or Map.get(params, "meta_key", false)
-    remove = item.struct.id in socket.assigns.selection
+    remove = item.id in socket.assigns.selection
 
     selections = case {shift, ctrl, socket.assigns.selections} do
       {_, _, []} -> [%Sel{start: index, end: index}]
@@ -37,7 +37,7 @@ defmodule LiveViewDataTable.Select do
   end
 
   def handle_data_table_event(module, {:cell, :mousemove, _column, item, _}, %{assigns: %{selecting?: true}} = socket) do
-    index = Enum.find_index(socket.assigns.items, &(&1.struct.id == item.struct.id))
+    index = Enum.find_index(socket.assigns.items, &(&1.id == item.id))
 
     [current | rest] = socket.assigns.selections
     selections = [%{ current | end: index } | rest]
@@ -51,7 +51,7 @@ defmodule LiveViewDataTable.Select do
   end
 
   def handle_data_table_event(module, {:cell, :mouseup, _column, item, %{"button" => 0}}, %{assigns: %{selecting?: true}} = socket) do
-    index = Enum.find_index(socket.assigns.items, &(&1.struct.id == item.struct.id))
+    index = Enum.find_index(socket.assigns.items, &(&1.id == item.id))
 
     [current | rest] = socket.assigns.selections
     selections = [%{ current | end: index } | rest]
@@ -90,7 +90,7 @@ defmodule LiveViewDataTable.Select do
       end)
       |> Enum.map(fn index ->
         case Enum.at(socket.assigns.items, index) do
-          %{struct: %{id: id}} -> id
+          %{id: id} -> id
           _ -> nil
         end
       end)

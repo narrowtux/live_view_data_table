@@ -54,7 +54,7 @@ defmodule LiveViewDataTable.CopyValue do
   def handle_data_table_event(module, {:contextmenu_action, %{id: id} = action}, socket) when id in ~w[copy_cell copy_item_table copy_item_json]a do
     column = Keyword.get(action.opts, :column)
     item = Keyword.get(action.opts, :item)
-    items = Enum.map(socket.assigns.selection, fn id -> Enum.find(socket.assigns.items, fn item -> item.struct.id == id end) end)
+    items = Enum.map(socket.assigns.selection, fn id -> Enum.find(socket.assigns.items, fn item -> item.id == id end) end)
 
     {value, format} = case id do
       :copy_cell ->

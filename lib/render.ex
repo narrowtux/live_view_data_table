@@ -41,21 +41,21 @@ defmodule LiveViewDataTable.Render do
       </tr>
 
       <%= for item <- @items do %>
-      <tr class="<%= selection_class(@selection, item.struct.id) %>" data-id="<%= item.struct.id %>">
+      <tr class="<%= selection_class(@selection, item.id) %>" data-id="<%= item.id %>">
         <%= for {column, opts} <- @columns do %>
           <%
             value = get_value(item, column, opts)
             change = get_change(item, column, opts)
           %>
-          <td data-column="<%= column %>" data-id="<%= item.struct.id %>">
-            <%= if @edit_column == column && @edit_id == item.struct.id do %>
+          <td data-column="<%= column %>" data-id="<%= item.id %>">
+            <%= if @edit_column == column && @edit_id == item.id do %>
               <div class="live-view-data-table-editor-wrapper">
                 <input id="cell-editor" type="text" value="<%= value %>" phx-blur="edit_blur" phx-hook="Autofocus" size="" class="live-view-data-table-editor">
               </div>
             <% end %>
             <div class="live-view-data-table-cell <%= if change != :unchanged, do: "changed", else: "" %>">
               <% renderer = Keyword.get(opts, :render_with, LiveViewDataTable.ValueRenderers.Default) %>
-              <%= live_component @socket, renderer, id: "#{item.struct.id}_#{column}_cell_renderer", value: value, item: item %>
+              <%= live_component @socket, renderer, id: "#{item.id}_#{column}_cell_renderer", value: value, item: item %>
             </div>
           </td>
         <% end %>

@@ -8,12 +8,13 @@ defmodule LiveViewDataTable.Item do
   defstruct [
     changeset: nil,
     columns: [],
-    struct: nil
+    struct: nil,
+    id: nil
   ]
 
   @spec new_from_data_source(struct(), [{atom(), term()}]) :: t()
   def new_from_data_source(struct, columns) do
-    %__MODULE__{struct: struct, columns: columns}
+    %__MODULE__{struct: struct, columns: columns, id: Ecto.UUID.autogenerate()}
   end
 
   @spec with_changeset(t()) :: t()
