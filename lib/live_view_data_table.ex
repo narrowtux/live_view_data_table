@@ -20,8 +20,9 @@ defmodule LiveViewDataTable do
 
   defmacro __using__(opts \\ []) do
     features = Keyword.get(opts, :features, [
+      LiveViewDataTable.Select,
       LiveViewDataTable.Sort,
-      LiveViewDataTable.CopyValue
+      LiveViewDataTable.CopyValue,
     ])
     quote do
       use Phoenix.LiveView

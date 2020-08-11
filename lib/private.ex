@@ -29,7 +29,6 @@ defmodule LiveViewDataTable.Private do
         limit: 50,
         offset: 0,
         selection: [],
-        selection_start: nil,
         edit_column: nil,
         contextmenu: []
       ])
@@ -79,6 +78,7 @@ defmodule LiveViewDataTable.Private do
     end
 
     case {converted_event, item, column} do
+      {event, nil, nil} when not is_nil(event) -> call_data_table_event(module, features, {:table, event, params}, socket)
       {event, nil, {column, _opts}} when not is_nil(event) -> call_data_table_event(module, features, {:column, event, column, params}, socket)
       {event, %Item{} = item, nil} when not is_nil(event) -> call_data_table_event(module, features, {:item, event, item, params}, socket)
       {event, %Item{} = item, {column, _opts}} when not is_nil(event) -> call_data_table_event(module, features, {:cell, event, column, item, params}, socket)
